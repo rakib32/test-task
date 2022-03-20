@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"math/rand"
 	"strconv"
 	"strings"
 )
@@ -14,6 +15,8 @@ func main() {
 	fmt.Println(averageNumber(str))
 	fmt.Println(wholeStory(str))
 	fmt.Println(storyStats(str))
+	generate(true)
+	generate(false)
 }
 
 func testValidity(str string) bool {
@@ -118,4 +121,39 @@ func isEven(i int) bool {
 	}
 
 	return false
+}
+
+func generate(flag bool) {
+	str := make([]string, 10)
+	for i := 0; i < len(str); i = i + 2 {
+		str[i] = randNumSeq(5)
+	}
+
+	for i := 1; i < len(str); i = i + 2 {
+		str[i] = randCharSeq(5)
+	}
+
+	if flag {
+		fmt.Println(strings.Join(str, "-"))
+	} else {
+		fmt.Println(strings.Join(str, ""))
+	}
+}
+
+func randCharSeq(n int) string {
+	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+
+	return string(b)
+}
+
+func randNumSeq(n int) string {
+	maxRange := math.Pow10(n)
+	num := 1 + rand.Intn(int(maxRange))
+
+	return strconv.Itoa(num)
 }
